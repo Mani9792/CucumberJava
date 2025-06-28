@@ -1,0 +1,59 @@
+pipeline {
+    agent any
+   parameters {
+        choice(
+            name: 'TEST_TYPE',
+            choices: ['smoke', 'regression'],
+            description: 'Select the type of test to run'
+              )
+        choice(
+            name: 'BROWSER',
+            choices: ['chrome', 'edge','firefox'],
+            description: 'Select the browser for test execution'
+              )      
+              
+    }
+    stages 
+    {
+        stage('Build') {
+            steps {
+                echo 'Building..'
+            }
+        }
+        stage('Show Selected Parameters') {
+            steps {
+                echo "Test Type selected: ${params.TEST_TYPE}"
+                echo "Browser selected: ${params.BROWSER}"
+            }
+        }
+       stage('Run Tests') {
+            steps {
+                script 
+                {
+                 echo "Running ${params.TEST_TYPE} tests on ${params.BROWSER}"
+                 bat 'mvn test -Dbrowser=${params.BROWSER} -Dcucumber.filter.tags=@${params.TEST_TYPE}'
+                }
+            }
+        }
+       stage('Archive Reports') {
+            steps {
+                echo "Publishing Cucumber Reports..."
+                publishHTML(target: [
+                    reportDir: "target/cucumber-reports/${params.SUITE}",
+                    reportFiles: "index.html",
+                    reportName: "Cucumber ${params.SUITE.capitalize()} Report"
+                ])
+            }
+        } 
+    }
+post {
+    always {
+        junit '**\\target\\surefire-reports\\*.xml'
+        echo "Cleaning up workspace..."
+        cleanWs()
+         }
+        failure {
+            echo "Build failed. Check the console output above."
+        }    
+    }
+}
