@@ -31,7 +31,7 @@ pipeline {
                 script 
                 {
                  echo "Running ${params.TEST_TYPE} tests on ${params.BROWSER}"
-                 bat 'mvn test -Dbrowser=${params.BROWSER} -Dcucumber.filter.tags=@${params.TEST_TYPE}'
+                 bat "mvn test -Dbrowser=${params.BROWSER} -Dcucumber.filter.tags=@${params.TEST_TYPE}"
                 }
             }
         }
