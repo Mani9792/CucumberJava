@@ -39,7 +39,7 @@ pipeline {
             steps {
                 echo "Publishing Cucumber Reports..."
                 publishHTML(target: [
-                    reportDir: "src/test/java/resources/cucumber-reports/${params.TEST_TYPE}",
+                    reportDir: "src/test/java/resources",
                     reportFiles: "index.html",
                     reportName: "Cucumber ${params.TEST_TYPE.capitalize()} Report"
                 ])
