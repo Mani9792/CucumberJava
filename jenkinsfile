@@ -45,7 +45,7 @@ pipeline {
                    alwaysLinkToLastBuild: true,
 		           allowMissing: true,
 		           keepAll: true,
-		           reportDir: 'target\\ExtentReport',
+		           reportDir: 'target/ExtentReport',
 		           reportFiles: 'ExtentReport.html',
 		           reportName: 'Cucumber Extent Reports'
 		           ]
