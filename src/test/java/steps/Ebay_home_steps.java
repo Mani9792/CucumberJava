@@ -17,9 +17,9 @@ import junit.framework.Assert;
 public class Ebay_home_steps {
 	WebDriver driver;
 	private static String dataSheet="./src/test/java/resources/TestDataSheet.xlsx";
-	public Ebay_home_steps(BaseClass base)
+	public Ebay_home_steps()
 	{
-		this.driver = base.getDriver();
+		this.driver = DriverManager.getDriver();
 	}
 	@Given("I am on Ebay home page")
 	public void i_am_on_Ebay_home_page()

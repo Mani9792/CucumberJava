@@ -31,18 +31,24 @@ pipeline {
                 script 
                 {
                  echo "Running ${params.TEST_TYPE} tests on ${params.BROWSER}"
-                 bat 'mvn test -Dbrowser=${params.BROWSER} -Dcucumber.filter.tags=@${params.TEST_TYPE}'
+                 bat "mvn test -Dbrowser=${params.BROWSER} -Dcucumber.filter.tags=@${params.TEST_TYPE}"
                 }
             }
         }
        stage('Archive Reports') {
             steps {
                 echo "Publishing Cucumber Reports..."
-                publishHTML(target: [
-                    reportDir: "target/cucumber-reports/${params.SUITE}",
-                    reportFiles: "index.html",
-                    reportName: "Cucumber ${params.SUITE.capitalize()} Report"
-                ])
+                publishHTML(
+                target: 
+                [
+                   alwaysLinkToLastBuild: true,
+		           allowMissing: true,
+		           keepAll: true,
+		           reportDir: 'target\\ExtentReport',
+		           reportFiles: 'ExtentReport.html',
+		           reportName: 'Cucumber Extent Reports'
+		           ]
+                )
             }
         } 
     }

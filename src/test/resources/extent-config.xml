@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<extentreports>
+    <configuration>
+
+        <theme>standard</theme>
+
+        <documentTitle>Automation Test Report</documentTitle>
+
+        <reportName>Regression Test Execution Report</reportName>
+
+        <encoding>UTF-8</encoding>
+
+        <protocol>http</protocol>
+
+        <timelineEnabled>true</timelineEnabled>
+
+    </configuration>
+</extentreports>

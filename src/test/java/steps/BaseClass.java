@@ -20,12 +20,10 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class BaseClass {
 	
-	private WebDriver driver;
-	
 	@Before
 	public void setDriver()
 	{
-		String browser = System.getProperty("browser", "chrome");
+		String browser = System.getProperty("browser")!=null?System.getProperty("browser"):"chrome";
 		switch (browser.toLowerCase()) 
 		{
         case "firfox":
@@ -33,15 +31,14 @@ public class BaseClass {
 			fo.addArguments("--remote-allow-origins=*"); //using this to get rid of Web socket issues in Chrome version > 111..
 			fo.addArguments("--ignore-ssl-errors=yes");
 			fo.addArguments("--ignore-certificate-errors");		
-			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
+			DriverManager.setDriver(new FirefoxDriver(fo));
         case "edge":
         	EdgeOptions eo = new EdgeOptions();
 			eo.addArguments("--remote-allow-origins=*"); //using this to get rid of Web socket issues in Chrome version > 111..
 			eo.addArguments("--ignore-ssl-errors=yes");
 			eo.addArguments("--ignore-certificate-errors");
 			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver(eo);
+			DriverManager.setDriver(new EdgeDriver(eo));
 		default:	
 			ChromeOptions co = new ChromeOptions();
 			co.addArguments("--remote-allow-origins=*"); //using this to get rid of Web socket issues in Chrome version > 111..
@@ -52,16 +49,16 @@ public class BaseClass {
 			{
 				co.addArguments("headless");
 			}
-			driver = new ChromeDriver(co);
+			DriverManager.setDriver(new ChromeDriver(co));
 			//To set size
 			Dimension d = new Dimension(1440,900);
 			System.out.println("Dimension : "+d);
-			driver.manage().window().setSize(d);
+			DriverManager.getDriver().manage().window().setSize(d);
 		}
 		
-        driver.manage().timeouts().implicitlyWait(100,TimeUnit.SECONDS);
+		DriverManager.getDriver().manage().timeouts().implicitlyWait(100,TimeUnit.SECONDS);
 		
-		driver.manage().window().maximize();
+		DriverManager.getDriver().manage().window().maximize();
 	}
 	
 	@After
@@ -69,14 +66,10 @@ public class BaseClass {
 	{
 		if(scenario.isFailed())
 		{
-			final byte[] scr = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+			final byte[] scr = ((TakesScreenshot)DriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(scr,"image/png",scenario.getName());
 		}
-		driver.quit();
+		DriverManager.quitDriver();
 	}
 
-	public WebDriver getDriver()
-	{
-		return driver;
-	}
 }

@@ -17,9 +17,9 @@ public class SignInSauceSteps {
 	WebDriver driver;
 	String path = "./src/test/java/resources/SiginDetails.xlsx";
 
-	public SignInSauceSteps(BaseClass base)
+	public SignInSauceSteps()
 	{
-		this.driver = base.getDriver();
+		this.driver = DriverManager.getDriver();
 	}
 	
 	@Given("user enters sign in page")
