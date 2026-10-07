@@ -26,28 +26,35 @@ public class BaseClass {
 		String browser = System.getProperty("browser")!=null?System.getProperty("browser"):"chrome";
 		switch (browser.toLowerCase()) 
 		{
-        case "firfox":
+        case "firefox":
+        	WebDriverManager.firefoxdriver().setup();
         	FirefoxOptions fo = new FirefoxOptions();
 			fo.addArguments("--remote-allow-origins=*"); //using this to get rid of Web socket issues in Chrome version > 111..
 			fo.addArguments("--ignore-ssl-errors=yes");
-			fo.addArguments("--ignore-certificate-errors");		
+			fo.addArguments("--ignore-certificate-errors");	
+			if (browser.contains("headless")) {
+	            fo.addArguments("--headless");
+	        }
 			DriverManager.setDriver(new FirefoxDriver(fo));
         case "edge":
+        	WebDriverManager.edgedriver().setup();
         	EdgeOptions eo = new EdgeOptions();
 			eo.addArguments("--remote-allow-origins=*"); //using this to get rid of Web socket issues in Chrome version > 111..
 			eo.addArguments("--ignore-ssl-errors=yes");
 			eo.addArguments("--ignore-certificate-errors");
-			WebDriverManager.edgedriver().setup();
+			if (browser.contains("headless")) {
+	            eo.addArguments("--headless");
+	        }
 			DriverManager.setDriver(new EdgeDriver(eo));
 		default:	
+			WebDriverManager.chromedriver().setup();
 			ChromeOptions co = new ChromeOptions();
 			co.addArguments("--remote-allow-origins=*"); //using this to get rid of Web socket issues in Chrome version > 111..
 			co.addArguments("--ignore-ssl-errors=yes");
 			co.addArguments("--ignore-certificate-errors");
-			WebDriverManager.chromedriver().setup();
 			if(browser.contains("headless"))
 			{
-				co.addArguments("headless");
+				co.addArguments("--headless=new");
 			}
 			DriverManager.setDriver(new ChromeDriver(co));
 			//To set size

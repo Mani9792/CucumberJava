@@ -18,6 +18,13 @@ Scenario Outline: Search Items Count
 	|Iphone 11|
 	|Toy Cars|
 
+Scenario: Validate search items count on eBay
+    Given I am on ebay home page
+    When I search for products with 10000000
+      | products   |
+      | Iphone 11  |
+      | Toy Cars   |
+	
 Scenario: Search Items Count
 
 	Given I am on ebay home page

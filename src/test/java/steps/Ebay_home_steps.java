@@ -5,9 +5,11 @@ import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -40,6 +42,24 @@ public class Ebay_home_steps {
 		Assert.assertEquals("Advanced Search | eBay", title);
 		System.out.println("I navigate to Advanced search page");
 	}
+	
+	@When("I search for products with {int}")
+    public void i_search_for_products(DataTable dataTable, int int1) {
+        List<String> products = dataTable.asList(String.class);
+
+        for (String product : products) {
+        	driver.findElement(By.xpath("//input[@name='_nkw']")).sendKeys(product);	
+    		driver.findElement(By.xpath("//button[@id='gh-search-btn']")).click();
+    		String itemCount = driver.findElement(By.xpath("//h1[@class='srp-controls__count-heading']/span[1]")).getText().trim();
+            String itc = itemCount.replace(",", "");
+    	    int count = Integer.parseInt(itc); 
+            if(count <= int1)
+            {
+            	System.out.println("less than 1000 results");
+            }
+        }
+    }
+	
 	@Given("I am on ebay home page")
 	public void i_am_on_ebay_home_page() {
 		driver.get("https://www.ebay.com");
