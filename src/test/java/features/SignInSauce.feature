@@ -1,4 +1,4 @@
-@smoke
+@smoke @group2 @group4
 Feature: Sign in to sauce labs page
 
 Scenario Outline: User login with valid "<username>" and "<password>"

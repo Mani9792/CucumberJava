@@ -1,4 +1,4 @@
-@regression
+@regression @group1
 Feature: Ebay Home Page scenarios
 
 Scenario: Advanced search link

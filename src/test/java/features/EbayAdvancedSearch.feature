@@ -1,4 +1,4 @@
-@regression
+@regression @group3
 Feature: Ebay Advanced search page
 
 Scenario: Ebay logo on advanced search page
